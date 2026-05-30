@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+  <div>
+    <table>
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>추천 장소</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="restaurant : ${restaurants}">
+        <td th:text="${restaurant.id}"></td>
+        <td th:text="${restaurant.name}"></td>
+        <td th:text="${restaurant.location}"></td>
+        <td th:text="${restaurant.description}"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div> <!-- /container -->
+</body>
+</html>

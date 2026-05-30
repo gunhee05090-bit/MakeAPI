@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+  <form action="/restaurants/update/description" method="post">
+    <div class="form-group">
+      <label for="name">이름</label>
+      <input type="text" id="name" name="name" placeholder="수정할 장소의 이름을 입력하세요.">
+      <label for="location"> 위치</label>
+      <input type="text" id="location" name="location" placeholder="수정할 장소의 내용을 입력하세요.">
+      <label for="location"> 수정 내용</label>
+      <input type="text" id="description" name="description" placeholder="적용할 내용을 입력하세요.">
+    </div>
+    <button type="submit">수정</button>
+  </form>
+</div> <!-- /container -->
+</body>
+</html>
