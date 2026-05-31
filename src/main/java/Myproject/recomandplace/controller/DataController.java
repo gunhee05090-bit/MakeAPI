@@ -2,8 +2,9 @@ package Myproject.recomandplace.controller;
 
 import Myproject.recomandplace.domain.Restaurant;
 import Myproject.recomandplace.dto.CreateRequestDto;
-import Myproject.recomandplace.dto.DeleteDto;
-import Myproject.recomandplace.dto.UpdateDto;
+import Myproject.recomandplace.dto.DeleteRequestDto;
+import Myproject.recomandplace.dto.FindRequestDto;
+import Myproject.recomandplace.dto.UpdateRequestDto;
 import Myproject.recomandplace.service.RPService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,11 +34,16 @@ public class DataController {
 
     @PostMapping("/restaurants/new")
     @ResponseBody
-    public ResponseEntity<?> create(CreateRequestDto requestDto) {
+    public ResponseEntity<?> create(Form form) {
+        CreateRequestDto requestDto = new CreateRequestDto(form.getName(), form.getLocation(), form.getDescription());
+
+        System.out.println("Creating restaurant " + requestDto);
+
         rpService.RestaurnatJoin(requestDto);
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .header("Location", "/" + requestDto)
+                .header("Location", "/")
                 .body(requestDto);
     }
 
@@ -55,19 +61,30 @@ public class DataController {
         return "Restaurant/restaurantList";
     }
 
-    @GetMapping(value = "/restaurantName") // 단일 이름
-    public String FindOnebyName(Model model) {
-        String restaurant = rpService.findOneRestaurantbyname(model.toString());
+    @GetMapping(value = "/restaurant") // 단일 탐색
+    public String FindOneForm() {
+        return "Restaurant/restaurantFindForm";
+    }
+
+    @GetMapping(value = "/restaurantOne") // 목록
+    public String printOne(Model model) {
+        List<Restaurant> restaurant = rpService.findRestaurants();
         model.addAttribute("restaurants", restaurant);
         return "Restaurant/restaurantFindOne";
     }
 
-    @GetMapping(value = "/restaurantName") // 단일 이름
-    public String FindOnebyLocation(Model model) {
-        String restaurant = rpService.findOneRestaurantbylocation(model.toString());
-        model.addAttribute("restaurants", restaurant);
-        return "Restaurant/restaurantFindOne";
+    @PostMapping(value = "/restaurantOne")
+    public ResponseEntity<?> FindOne(Form form) {
+        FindRequestDto requestDto = new FindRequestDto(form.getName(), form.getLocation());
+
+        rpService.findOneRestaurantbynameAlocation(requestDto);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .header("Location", "/restaurantFindOne")
+                .body(requestDto);
     }
+
 
 
     // U
@@ -89,22 +106,28 @@ public class DataController {
 
     @PostMapping("/restaurants/update/location") // 위치 수정
     @ResponseBody
-    public ResponseEntity<?> updatelocation(UpdateDto requestDto) {
-        rpService.RestaurantUpdatebylocation(requestDto);
+    public ResponseEntity<?> updatelocation(Form form) {
+        UpdateRequestDto updateDto = new UpdateRequestDto(form.getName(), form.getLocation(), form.getDescription());
+
+        rpService.RestaurantUpdatebylocation(updateDto);
+
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .header("Location", "/" + requestDto)
-                .body(requestDto);
+                .header("Location", "/")
+                .body(updateDto);
     }
 
     @PostMapping("/restaurants/update/description") // 설명 수정
     @ResponseBody
-    public ResponseEntity<?> updatedescription(UpdateDto requestDto) {
-        rpService.RestaurantUpdatebydescription(requestDto);
+    public ResponseEntity<?> updatedescription(Form form) {
+        UpdateRequestDto updateDto = new UpdateRequestDto(form.getName(), form.getLocation(), form.getDescription());
+
+        rpService.RestaurantUpdatebylocation(updateDto);
+
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .header("Location", "/" + requestDto)
-                .body(requestDto);
+                .header("Location", "/")
+                .body(updateDto);
     }
 
 
@@ -117,13 +140,15 @@ public class DataController {
 
     @DeleteMapping(value = "/restaurants/delete")
     @ResponseBody
-    public ResponseEntity<?> deleteRestaurant(DeleteDto requestDto) {
-        rpService.DeleteRestaurantbyname(requestDto.getId());
+    public ResponseEntity<?> deleteRestaurant(Form form) {
+        DeleteRequestDto deleteDto = new DeleteRequestDto(form.getName(), form.getLocation());
+
+        rpService.DeleteRestaurantbyname(deleteDto.getId());
 
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT) // 삭제 완료, 보낼 메세지 없음
-                .header("Location", "/" + requestDto)
-                .body(requestDto);
+                .header("Location", "/")
+                .body(deleteDto);
     }
 
 }

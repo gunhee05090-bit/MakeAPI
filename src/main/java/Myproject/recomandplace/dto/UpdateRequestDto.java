@@ -1,15 +1,15 @@
 package Myproject.recomandplace.dto;
 
-
 import Myproject.recomandplace.domain.Restaurant;
 import jakarta.persistence.Column;
-import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateRequestDto {
+public class UpdateRequestDto {
 
     @Column(name = "name")
     private String name;
@@ -20,8 +20,9 @@ public class CreateRequestDto {
     @Column(name = "description")
     private String description;
 
-    @Autowired
+
     public Restaurant toEntity() {
-        return new Restaurant(name, location, description);
+        return new Restaurant(this.name, this.location, this.description);
     }
+
 }

@@ -1,9 +1,7 @@
 package Myproject.recomandplace.service;
 
 import Myproject.recomandplace.domain.Restaurant;
-import Myproject.recomandplace.dto.CreateRequestDto;
-import Myproject.recomandplace.dto.RestaurantResponseDto;
-import Myproject.recomandplace.dto.UpdateDto;
+import Myproject.recomandplace.dto.*;
 import Myproject.recomandplace.repository.PlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,12 +33,25 @@ public class RPService {
                 });
     }
 
+    // 미등록 확인 (이름)
+    private void PresentQueryName(Restaurant restaurant){
+        placeRepository.findByName(restaurant.getName())
+                .orElseThrow(() -> new IllegalArgumentException(restaurant.getName() + "은 추천 되지 않은 장소입니다."));
+    }
+
+    // 미등록 확인 (위치)
+    private void PresentQueryLocation(Restaurant restaurant){
+        placeRepository.findByName(restaurant.getLocation())
+                .orElseThrow(() -> new IllegalArgumentException(restaurant.getName() + "은 추천 되지 않은 위치입니다."));
+    }
+
 
     // 가게 등록
     public String RestaurnatJoin(CreateRequestDto requestDto){
         Restaurant restaurant = requestDto.toEntity();
         NotDoubleJoinRestaurant(restaurant);
-        return placeRepository.save(requestDto.toEntity()).getName();
+        placeRepository.save(restaurant);
+        return "redirect:/";
     }
 
 
@@ -50,18 +61,13 @@ public class RPService {
     }
 
 
-    // 부분 호출 장소 이름
-    public String findOneRestaurantbyname(String name){
-        Restaurant restaurant = placeRepository.findByName(name)
-                .orElseThrow(() -> new IllegalArgumentException(name + "은 추천 되지 않은 장소입니다."));
-        return new RestaurantResponseDto(restaurant).toString();
-    }
-
-    // 부분 호출 장소 위치
-    public String findOneRestaurantbylocation(String location){
-        Restaurant restaurant = placeRepository.findByName(location)
-                .orElseThrow(() -> new IllegalArgumentException(location + "추천된 장소가 없는 위치입니다."));
-        return new RestaurantResponseDto(restaurant).toString();
+    // 부분 호출
+    public String findOneRestaurantbynameAlocation(FindRequestDto requestDto){
+        Restaurant restaurant = requestDto.toEntity();
+        PresentQueryName(restaurant);
+        PresentQueryLocation(restaurant);
+        FindResponseDto findResponseDto = new FindResponseDto(restaurant.getName(), restaurant.getLocation());
+        return findResponseDto.toString();
     }
 
     // 삭제
@@ -72,20 +78,18 @@ public class RPService {
 
 
     // 장소 위치 수정
-    public String RestaurantUpdatebylocation(UpdateDto updateDto){
-        Restaurant restaurant = placeRepository.findByName(updateDto.getName())
-                .orElseThrow(() -> new IllegalArgumentException(updateDto.getName() + "은 추천되지 않은 장소 입니다."));
-
+    public String RestaurantUpdatebylocation(UpdateRequestDto updateDto){
+        Restaurant restaurant = updateDto.toEntity();
+        PresentQueryName(restaurant);
         restaurant.updateLocation(updateDto.getLocation());
 
         return updateDto.getName();
     }
 
     // 장소 설명 수정
-    public String RestaurantUpdatebydescription(UpdateDto updateDto){
-        Restaurant restaurant = placeRepository.findByName(updateDto.getName())
-                .orElseThrow(() -> new IllegalArgumentException(updateDto.getName() + "은 추천되지 않은 장소 입니다."));
-
+    public String RestaurantUpdatebydescription(UpdateRequestDto updateDto){
+        Restaurant restaurant = updateDto.toEntity();
+        PresentQueryName(restaurant);
         restaurant.updateDescription(updateDto.getDescription());
 
         return updateDto.getName();

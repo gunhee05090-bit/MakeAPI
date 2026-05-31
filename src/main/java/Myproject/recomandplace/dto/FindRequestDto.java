@@ -3,13 +3,16 @@ package Myproject.recomandplace.dto;
 
 import Myproject.recomandplace.domain.Restaurant;
 import jakarta.persistence.Column;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateRequestDto {
+public class FindRequestDto {
 
     @Column(name = "name")
     private String name;
@@ -20,8 +23,15 @@ public class CreateRequestDto {
     @Column(name = "description")
     private String description;
 
+    public FindRequestDto(String name, String location) {
+        this.name = name;
+        this.location = location;
+    }
+
     @Autowired
     public Restaurant toEntity() {
         return new Restaurant(name, location, description);
     }
+
+
 }
