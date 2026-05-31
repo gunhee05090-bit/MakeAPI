@@ -42,7 +42,7 @@ public class DataController {
         rpService.RestaurnatJoin(requestDto);
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
+                .status(HttpStatus.FOUND)
                 .header("Location", "/")
                 .body(requestDto);
     }
@@ -146,9 +146,8 @@ public class DataController {
         rpService.DeleteRestaurantbyname(deleteDto);
 
         return ResponseEntity
-                .status(HttpStatus.FOUND) // 삭제 완료, home으로 redirection
-                .header("Location", "/")
-                .body(deleteDto);
+                .status(HttpStatus.NO_CONTENT) // 삭제 완료, 보낼 메세지 없음.
+                .build();
     }
 
 }

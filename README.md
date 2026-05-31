@@ -1,11 +1,54 @@
-- 도메인 설명 + ERD(또는 클래스 다이어그램) 1장
-1. 도메인 설명
+***도메인 설명 + ERD(또는 클래스 다이어그램) 1장***
 
-2. ERD 사진
+**도메인 설명**
+1. id : PK, 각 행을 구분하여 쿼리문을 효율적으로 작성하기 위한 column
+2. name : 추천한 장소의 이름을 저장하기 위한 column, 255자 까지 입력 가능.
+3. location : 추천한 장소의 위치를 저장 위한 column 255자 까지 입력 가능.
+4. description : 추천된 장소의 대한 정보를 입력하는 column, 최대 TEXT 형식으로 저장되어 있음.
 
-- API 명세 (메서드, URI, 요청/응답 DTO, 상태 코드)
+**ERD 사진**
+
+![ERD 캡처](https://github.com/gunhee05090-bit/MakeAPI/blob/master/ERD%20%EC%BA%A1%EC%B2%98.png)
+
+
+
+**API 명세 (메서드, URI, 요청/응답 DTO, 상태 코드)**
+1. createForm, /restaurants/new
+2. create, /restaurants/new, CreateRequestDto, FOUND(리다이렉션으로 재 등록되는 것을 방지)
+3. FindForm, /restaurantf
+4. list, /restaurants
+5. FindOneForm, /restaurant
+6. printOne, /restaurantOne
+7. FindOne, /restaurantOne, FindRequestDto, FOUND(목록확인 HTML로 이동하기 위해 FOUND 상태코드 사용)
+8. updateForm, /restaurants/update
+9. updateFormlocation, /restaurants/update/location
+10. updateFormDescription, /restaurants/update/description
+11. updatelocation, /restaurants/update/location, UpdateRequestDto, FOUND(목록으로 쉽게 이동할 수 있도록 home("/")으로 리다이렉션)
+12. updatedescription, /restaurants/update/description, UpdateRequestDto, FOUND(목록으로 쉽게 이동할 수 있도록 home("/")으로 리다이렉션)
+13. deleteForm, /restaurants/delete
+14. deleteRestaurant, /restaurants/delete, DeleteRequestDto, NO_CONTENT(삭제 완료가 되면 보낼 메세지 없음으로 인지하게 함.)
 
 - Postman / `curl` / IntelliJ HTTP Client 중 하나로 모든 API를 호출한 스크린샷 또는 결과
+
+![Home](https://github.com/gunhee05090-bit/MakeAPI/blob/master/Home.png)
+
+![createform](https://github.com/gunhee05090-bit/MakeAPI/blob/master/createform.png)
+
+![delete](https://github.com/gunhee05090-bit/MakeAPI/blob/master/delete.png)
+
+![deleteform](https://github.com/gunhee05090-bit/MakeAPI/blob/master/deleteform.png)
+
+![findOneform](https://github.com/gunhee05090-bit/MakeAPI/blob/master/findOneform.png)
+
+![findhome](https://github.com/gunhee05090-bit/MakeAPI/blob/master/findhome.png)
+
+![findlist](https://github.com/gunhee05090-bit/MakeAPI/blob/master/findlist.png)
+
+![updatehome](https://github.com/gunhee05090-bit/MakeAPI/blob/master/updatehome.png)
+
+![updatelocation](https://github.com/gunhee05090-bit/MakeAPI/blob/master/updatelocationform.png)
+
+![updatedescription](https://github.com/gunhee05090-bit/MakeAPI/blob/master/updatedescriptionform.png)
 
 
 
