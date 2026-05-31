@@ -20,7 +20,6 @@ public class UpdateRequestDto {
     @Column(name = "description")
     private String description;
 
-
     public Restaurant toEntity() {
         return new Restaurant(this.name, this.location, this.description);
     }

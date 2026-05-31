@@ -1,5 +1,6 @@
 package Myproject.recomandplace.dto;
 
+import Myproject.recomandplace.domain.Restaurant;
 import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,5 +22,9 @@ public class DeleteRequestDto {
     private String description;
 
     public DeleteRequestDto(String name, String location) {}
+
+    public Restaurant toEntity(){
+        return new Restaurant(this.name, this.location, this.description);
+    }
 
 }

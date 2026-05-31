@@ -14,5 +14,6 @@ public interface PlaceRepository {
     Optional<Restaurant> findByName(String name);
     Optional<Restaurant> findByLocation(String location);
     List<Restaurant> findAll();
+    Optional<List<Restaurant>> deleteByName(String name);
 
 }

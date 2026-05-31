@@ -2,6 +2,8 @@ package Myproject.recomandplace.repository;
 
 import Myproject.recomandplace.domain.Restaurant;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 import java.util.Optional;
 
 public interface SDJPlaceRepository extends JpaRepository<Restaurant, Long>, PlaceRepository {
@@ -13,5 +15,9 @@ public interface SDJPlaceRepository extends JpaRepository<Restaurant, Long>, Pla
 
     @Override
     Optional<Restaurant> findByLocation(String location);
+
+    @Override
+    Optional<List<Restaurant>> deleteByName(String name);
+
 
 }

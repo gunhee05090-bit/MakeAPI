@@ -80,8 +80,8 @@ public class DataController {
         rpService.findOneRestaurantbynameAlocation(requestDto);
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .header("Location", "/restaurantFindOne")
+                .status(HttpStatus.FOUND)
+                .header("Location", "/restaurantOne")
                 .body(requestDto);
     }
 
@@ -112,7 +112,7 @@ public class DataController {
         rpService.RestaurantUpdatebylocation(updateDto);
 
         return ResponseEntity
-                .status(HttpStatus.OK)
+                .status(HttpStatus.FOUND) // update완료, home으로 redirection
                 .header("Location", "/")
                 .body(updateDto);
     }
@@ -122,10 +122,10 @@ public class DataController {
     public ResponseEntity<?> updatedescription(Form form) {
         UpdateRequestDto updateDto = new UpdateRequestDto(form.getName(), form.getLocation(), form.getDescription());
 
-        rpService.RestaurantUpdatebylocation(updateDto);
+        rpService.RestaurantUpdatebydescription(updateDto);
 
         return ResponseEntity
-                .status(HttpStatus.OK)
+                .status(HttpStatus.FOUND) // update완료, hoome으로 redirection
                 .header("Location", "/")
                 .body(updateDto);
     }
@@ -143,10 +143,10 @@ public class DataController {
     public ResponseEntity<?> deleteRestaurant(Form form) {
         DeleteRequestDto deleteDto = new DeleteRequestDto(form.getName(), form.getLocation());
 
-        rpService.DeleteRestaurantbyname(deleteDto.getId());
+        rpService.DeleteRestaurantbyname(deleteDto);
 
         return ResponseEntity
-                .status(HttpStatus.NO_CONTENT) // 삭제 완료, 보낼 메세지 없음
+                .status(HttpStatus.FOUND) // 삭제 완료, home으로 redirection
                 .header("Location", "/")
                 .body(deleteDto);
     }

@@ -33,16 +33,10 @@ public class RPService {
                 });
     }
 
-    // 미등록 확인 (이름)
+    // 미등록 확인
     private void PresentQueryName(Restaurant restaurant){
         placeRepository.findByName(restaurant.getName())
                 .orElseThrow(() -> new IllegalArgumentException(restaurant.getName() + "은 추천 되지 않은 장소입니다."));
-    }
-
-    // 미등록 확인 (위치)
-    private void PresentQueryLocation(Restaurant restaurant){
-        placeRepository.findByName(restaurant.getLocation())
-                .orElseThrow(() -> new IllegalArgumentException(restaurant.getName() + "은 추천 되지 않은 위치입니다."));
     }
 
 
@@ -65,24 +59,16 @@ public class RPService {
     public String findOneRestaurantbynameAlocation(FindRequestDto requestDto){
         Restaurant restaurant = requestDto.toEntity();
         PresentQueryName(restaurant);
-        PresentQueryLocation(restaurant);
         FindResponseDto findResponseDto = new FindResponseDto(restaurant.getName(), restaurant.getLocation());
         return findResponseDto.toString();
     }
-
-    // 삭제
-    public void DeleteRestaurantbyname(Long id){
-        Restaurant restaurant = placeRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(id + "을 찾을 수 없습니다."));
-    }
-
 
     // 장소 위치 수정
     public String RestaurantUpdatebylocation(UpdateRequestDto updateDto){
         Restaurant restaurant = updateDto.toEntity();
         PresentQueryName(restaurant);
-        restaurant.updateLocation(updateDto.getLocation());
-
+        restaurant.setLocation(updateDto.getLocation());
+        placeRepository.save(restaurant);
         return updateDto.getName();
     }
 
@@ -90,10 +76,16 @@ public class RPService {
     public String RestaurantUpdatebydescription(UpdateRequestDto updateDto){
         Restaurant restaurant = updateDto.toEntity();
         PresentQueryName(restaurant);
-        restaurant.updateDescription(updateDto.getDescription());
-
+        restaurant.setDescription(updateDto.getDescription());
+        placeRepository.save(restaurant);
         return updateDto.getName();
     }
 
+    // 삭제
+    public void DeleteRestaurantbyname(DeleteRequestDto requestDto){
+        Restaurant restaurant = requestDto.toEntity();
+        PresentQueryName(restaurant);
+        placeRepository.deleteByName(restaurant.getName());
+    }
 
 }
