@@ -104,7 +104,7 @@ public class DataController {
     }
 
 
-    @PostMapping("/restaurants/update/location") // 위치 수정
+    @PutMapping("/restaurants/update/location") // 위치 수정
     @ResponseBody
     public ResponseEntity<?> updatelocation(Form form) {
         UpdateRequestDto updateDto = new UpdateRequestDto(form.getName(), form.getLocation(), form.getDescription());
@@ -117,7 +117,7 @@ public class DataController {
                 .body(updateDto);
     }
 
-    @PostMapping("/restaurants/update/description") // 설명 수정
+    @PutMapping("/restaurants/update/description") // 설명 수정
     @ResponseBody
     public ResponseEntity<?> updatedescription(Form form) {
         UpdateRequestDto updateDto = new UpdateRequestDto(form.getName(), form.getLocation(), form.getDescription());
